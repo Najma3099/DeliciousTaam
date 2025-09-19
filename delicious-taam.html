@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delicious Ta'am</title>
+<style>
+/* ===== RESET ===== */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", Arial, sans-serif; }
+body { background:#fffdf7; color:#333; scroll-behavior:smooth; line-height:1.6; overflow-x:hidden; }
+
+/* ===== NAVBAR ===== */
+header {
+  position: fixed; top:0; left:0; right:0; background:rgba(253,223,189,0.95);
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 40px; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+header .logo { color:#d94f4f; font-size:1.8em; font-weight:bold; }
+header nav a { color:#333; text-decoration:none; margin-left:25px; font-weight:500; transition:0.3s; }
+header nav a:hover { color:#d94f4f; }
+@media (max-width:768px){
+  header nav { display:none; flex-direction:column; background:rgba(253,223,189,0.95); position:absolute; top:60px; right:40px; padding:10px 20px; border-radius:10px; }
+  header nav.active { display:flex; }
+  header .menu-toggle { display:block; cursor:pointer; font-size:1.5em; color:#d94f4f; }
+}
+.menu-toggle { display:none; }
+
+/* ===== HERO ===== */
+.hero {
+  height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
+  color:#d94f4f; position: relative; overflow: hidden;
+  background: linear-gradient(120deg, #fff8e1, #fff2d6, #fff8e1);
+}
+.hero::before {
+  content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+  background: url('https://www.transparenttextures.com/patterns/diagmonds-light.png');
+  opacity:0.1; pointer-events:none;
+}
+.hero h1 {
+  font-size:3em;
+  margin-bottom:20px;
+  animation:slideDown 1s ease forwards, glowText 4s ease-in-out infinite alternate;
+}
+.hero p { font-size:1.2em; margin-bottom:30px; animation:fadeIn 2s ease forwards; opacity:0; }
+.hero .btn {
+  background:#ffd36f; color:#d94f4f; padding:12px 25px; text-decoration:none; border-radius:30px; font-weight:bold;
+  transition:0.3s; animation:slideUp 1s ease forwards; opacity:0;
+  box-shadow: 0 0 0 rgba(255,211,111,0.5);
+}
+.hero .btn:hover { 
+  background:#fff; color:#d94f4f;
+  box-shadow: 0 0 25px rgba(255,211,111,0.8);
+  transform: scale(1.07);
+}
+
+/* ===== HERO GLOW ANIMATION ===== */
+@keyframes glowText {
+  0% { text-shadow: 0 0 5px #ffd36f, 0 0 10px #ffd36f, 0 0 15px #ffd36f; color:#d94f4f; }
+  50% { text-shadow: 0 0 10px #fff2b2, 0 0 20px #fff2b2, 0 0 30px #ffd36f; color:#ffb84d; }
+  100% { text-shadow: 0 0 5px #ffd36f, 0 0 10px #ffd36f, 0 0 15px #ffd36f; color:#d94f4f; }
+}
+
+/* ===== FLOATING PARTICLES ===== */
+.particle {
+  position: absolute; background: rgba(255,211,111,0.3); border-radius:50%;
+  width:10px; height:10px; pointer-events:none; will-change: transform;
+}
+
+/* ===== SECTIONS ===== */
+section { padding:100px 20px 60px 20px; max-width:1200px; margin:auto; }
+section h2 { text-align:center; margin-bottom:40px; color:#d94f4f; font-size:2.2em; animation:fadeIn 1.5s ease forwards; opacity:0; }
+
+/* ===== ABOUT ===== */
+#about .about-content { display:flex; flex-wrap:wrap; align-items:center; gap:20px; }
+#about .about-content img {
+  max-width:400px; width:100%; border-radius:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1);
+  animation:fadeIn 2s ease forwards; opacity:0;
+}
+#about .about-text { flex:1; font-size:1.1em; animation:fadeIn 2s ease forwards; opacity:0; }
+
+/* ===== MENU ===== */
+#menu .menu-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px;
+}
+.menu-card {
+  background:white; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  overflow:hidden; transition:0.3s; opacity:0; transform:translateY(20px);
+}
+.menu-card img { width:100%; height:150px; object-fit:cover; transition:0.3s; }
+.menu-card .card-content { padding:15px; text-align:center; }
+.menu-card h3 { color:#d94f4f; margin-bottom:10px; }
+.menu-card p { margin-bottom:15px; }
+.menu-card:hover { transform:translateY(-5px) scale(1.03); box-shadow:0 8px 25px rgba(0,0,0,0.25); filter: brightness(1.05); }
+
+/* ===== OFFERS ===== */
+#offers {
+  position: relative; z-index:1; overflow:hidden; padding-bottom:80px;
+}
+#offers::before {
+  content: "";
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 211, 111, 0.2), rgba(255, 211, 111, 0) 70%);
+  animation: glowRotate 20s linear infinite; z-index: -1; filter: blur(80px);
+}
+@keyframes glowRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+#offers .offers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; }
+.offer-card {
+  background:#fff8e1; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  padding:20px; text-align:center; transition:0.3s; opacity:0; transform:translateY(20px);
+}
+.offer-card img { width:100%; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+.offer-card:hover { transform:translateY(-5px) scale(1.03); box-shadow:0 8px 25px rgba(0,0,0,0.25); filter: brightness(1.05); }
+
+/* ===== CONTACT ===== */
+#contact form {
+  max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;
+  background:white; padding:25px; border-radius:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1);
+  opacity:0; transform:translateY(20px);
+}
+#contact input, #contact textarea { padding:12px; border:1px solid #ccc; border-radius:8px; font-size:1em; }
+#contact button {
+  padding:12px; background:#d94f4f; color:white; font-weight:bold; border:none; border-radius:8px; cursor:pointer; transition:0.3s;
+}
+#contact button:hover { background:#ffd36f; color:#d94f4f; font-weight:bold; transform:scale(1.05); }
+
+/* ===== FOOTER ===== */
+footer { text-align:center; padding:20px; background:#fddfbd; color:#d94f4f; }
+
+/* ===== WHATSAPP BUTTON ===== */
+.whatsapp-float {
+  position:fixed;
+  width:60px;
+  height:60px;
+  bottom:20px;
+  right:20px;
+  background:#25d366;
+  color:#fff;
+  border-radius:50%;
+  text-align:center;
+  font-size:30px;
+  box-shadow:2px 2px 10px rgba(0,0,0,0.2);
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.3s;
+}
+.whatsapp-float:hover { transform:scale(1.1); background:#20b954; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes slideDown { from{opacity:0; transform:translateY(-30px);} to{opacity:1; transform:translateY(0);} }
+@keyframes slideUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+  <div class="logo">Delicious Ta'am</div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <nav id="navLinks">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#offers">Offers</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <h1>Welcome to Delicious Ta'am</h1>
+  <p>Freshly cooked meals with authentic flavors.</p>
+  <a href="#menu" class="btn">See Menu</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2>About Us</h2>
+  <div class="about-content">
+    <img src="./Logo.jpg" alt="About Image">
+    <div class="about-text">
+      <p>At Delicious Ta'am, we serve freshly cooked meals using the finest ingredients. Our passion is bringing authentic flavors straight to your plate. Every dish is crafted with love and care to make your dining experience unforgettable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <img src="./Haleem Net.jpg" alt="Haleem">
+      <div class="card-content">
+        <h3>Haleem</h3>
+        <p>Delicious, rich chicken haleem.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="./Shami Net.jpeg" alt="Shami Kabab">
+      <div class="card-content">
+        <h3>Shami Kabab</h3>
+        <p>Spiced meat patties, perfectly grilled.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <img src="./Methi Net.jpg" alt="Methi Chicken">
+      <div class="card-content">
+        <h3>Methi Chicken</h3>
+        <p>Succulent chicken with fenugreek flavor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERS -->
+<section id="offers">
+  <h2>Special Offers</h2>
+  <div class="offers-grid">
+    <div class="offer-card">
+      <img src="./Chicken Haleem.jpg" alt="Chicken Haleem">
+    </div>
+    <div class="offer-card">
+      <img src="./Haleem And Shami Combo.jpg" alt="Haleem and Shami Combo">
+    </div>
+    <div class="offer-card">
+      <img src="./Shami Kababs.jpg" alt="Shami Kababs">
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Email Address" required>
+    <textarea placeholder="Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Delicious Ta'am. All Rights Reserved.</p>
+</footer>
+
+<a href="https://wa.me/919845540190" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+  <img src="./whatsapp.jpg" alt="WhatsApp" style="width:35px; height:35px; border-radius:50%;">
+</a>
+
+<!-- JS -->
+<script>
+/* Hamburger Menu */
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+/* Scroll Animations */
+const faders = document.querySelectorAll('section, .menu-card, .offer-card, #contact form, .hero h1, .hero p, .hero .btn, #about img, #about .about-text');
+const options = { threshold: 0.2 };
+const appearOnScroll = new IntersectionObserver(function(entries, observer){
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity='1';
+      entry.target.style.transform='translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, options);
+faders.forEach(fader=>{ 
+  fader.style.opacity='0'; 
+  fader.style.transform='translateY(20px)'; 
+  appearOnScroll.observe(fader); 
+});
+
+/* Floating particles with mouse interaction */
+const hero = document.querySelector('.hero');
+const particles = [];
+for(let i=0;i<40;i++){
+  let particle = document.createElement('div');
+  particle.classList.add('particle');
+  particle.style.width = particle.style.height = `${Math.random()*15+5}px`;
+  particle.style.left = `${Math.random()*window.innerWidth}px`;
+  particle.style.top = `${Math.random()*window.innerHeight}px`;
+  hero.appendChild(particle);
+  particles.push({
+    el: particle,
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    speed: Math.random()*0.5+0.2
+  });
+}
+let mouse = {x: window.innerWidth/2, y: window.innerHeight/2};
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+function animateParticles(){
+  particles.forEach(p=>{
+    p.y -= p.speed;
+    if(p.y < -50) p.y = window.innerHeight + 50;
+    let dx = (mouse.x - p.x) * 0.0005;
+    p.x += dx;
+    p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+
+</body>
+</html>. FROM THIS CODE remove the telephone logo and add a official whatsapp logo 
